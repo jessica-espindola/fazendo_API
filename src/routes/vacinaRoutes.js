@@ -10,4 +10,6 @@ routes.post("/vacinas", vacinaController.cadastrarVacina);
 
 routes.put("/vacinas/:id", vacinaController.atualizarVacina);
 
+routes.delete("/vacinas/:id", vacinaController.deletarVacina);
+
 export default routes;
