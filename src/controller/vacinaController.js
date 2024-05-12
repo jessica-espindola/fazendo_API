@@ -1,4 +1,5 @@
 import vacina from "../models/vacinas.js";
+import { veterinario } from "../models/veterinario.js";
 
 class vacinaController {
 
@@ -22,8 +23,11 @@ class vacinaController {
     }
 
     static async cadastrarVacina (req, res) {
+        const novaVacina = req.body;
         try {
-            const novaVacina = await vacina.create(req.body);
+            const veterinarioEncontrado = await veterinario.findById(novaVacina.veterinario);
+            const vacinaCompleta = { ...novaVacina, veterinario: { ...veterinarioEncontrado._doc}}
+            const vacinaCriada = await vacina.create(vacinaCompleta);
             res.status(201).json({ message: "criado com sucesso", vacina: novaVacina});
         } catch (erro) {
             res.status(500).json({ message: `${erro.message} - falha ao cadastrar vacina    `})
